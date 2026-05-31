@@ -1,0 +1,28 @@
+{
+  "name": "esem",
+  "version": "0.1.0",
+  "description": "Import Python modules in JavaScript and call them directly.",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./loader": "./loader.js"
+  },
+  "bin": {
+    "esem": "./pyjs.js"
+  },
+  "files": [
+    "bridge.js",
+    "index.js",
+    "loader.js",
+    "proxy.js",
+    "pyjs.js",
+    "worker.py"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
