@@ -3,7 +3,7 @@
  *
  * The main way to use PyJS Bridge:
  *
- *   import { python } from "esem";
+ *   import { python } from "esem-bridge";
  *   const tools = await python("./tools.py");
  *   const result = await tools.add(2, 3);
  *

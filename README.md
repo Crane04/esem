@@ -3,7 +3,7 @@
 **Import Python in JavaScript. No APIs needed.**
 
 ```js
-import { python } from "esem";
+import { python } from "esem-bridge";
 
 const { predict } = await python("./model.py");
 const result = await predict({ age: 22, country: "NG" });
@@ -33,7 +33,7 @@ That's too much infrastructure for what should be a function call.
 ## Install
 
 ```bash
-npm install esem
+npm install esem-bridge
 ```
 
 Requires Node.js 18+ and Python 3.8+.
@@ -45,7 +45,7 @@ Requires Node.js 18+ and Python 3.8+.
 ### Option 1 — `python()` helper (recommended)
 
 ```js
-import { python } from "esem";
+import { python } from "esem-bridge";
 
 const tools = await python("./tools.py");
 
@@ -68,7 +68,7 @@ const result = await tools.add(2, 3);
 Requires running with the loader hook:
 
 ```bash
-node --experimental-loader esem/loader yourfile.js
+node --experimental-loader esem-bridge/loader yourfile.js
 ```
 
 Or use the CLI:
@@ -91,7 +91,7 @@ def predict_score(user):
 ```
 
 ```js
-import { python } from "esem";
+import { python } from "esem-bridge";
 
 const { predict_score } = await python("./model.py");
 const result = await predict_score({ age: 22, country: "NG" });
@@ -102,7 +102,7 @@ console.log(result); // { score: 87, risk: "low" }
 
 ```js
 // app/api/price/route.js
-import { python } from "esem";
+import { python } from "esem-bridge";
 
 export async function POST(req) {
   const body = await req.json();
@@ -134,7 +134,7 @@ const result = await calc.add(1.234, 2.345);   // 3.58
 ### Using installed Python packages
 
 ```js
-const { python } = await import("esem");
+const { python } = await import("esem-bridge");
 const np = await python("numpy");              // pip-installed packages work too
 ```
 
@@ -153,7 +153,7 @@ def parse_data(raw):
 ```
 
 ```js
-import { python, PythonError } from "esem";
+import { python, PythonError } from "esem-bridge";
 
 const { parse_data } = await python("./tools.py");
 

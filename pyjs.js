@@ -41,7 +41,7 @@ if (args.length === 0 || args[0] === "--help" || args[0] === "-h") {
     esem run index.js
 
   In your JS file:
-    import { python } from "esem";
+    import { python } from "esem-bridge";
     const { add } = await python("./tools.py");
     console.log(await add(2, 3)); // → 5
 
