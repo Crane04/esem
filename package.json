@@ -1,8 +1,9 @@
 {
   "name": "esem-bridge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Import Python modules in JavaScript and call them directly.",
   "type": "module",
+  "main": "./index.js",
   "exports": {
     ".": "./index.js",
     "./loader": "./loader.js"
@@ -24,5 +25,21 @@
   "engines": {
     "node": ">=18"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Crane04/esem.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Crane04/esem/issues"
+  },
+  "homepage": "https://github.com/Crane04/esem#readme",
+  "keywords": [
+    "python",
+    "javascript",
+    "node",
+    "bridge",
+    "rpc",
+    "interop"
+  ],
   "license": "MIT"
 }

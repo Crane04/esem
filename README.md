@@ -71,10 +71,16 @@ Requires running with the loader hook:
 node --experimental-loader esem-bridge/loader yourfile.js
 ```
 
-Or use the CLI:
+Or use the CLI after installing `esem-bridge`:
 
 ```bash
 npx esem run yourfile.js
+```
+
+To run the CLI without installing first:
+
+```bash
+npx --package esem-bridge esem run yourfile.js
 ```
 
 ---
