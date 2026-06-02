@@ -1,7 +1,7 @@
 /**
- * PyJS Bridge — Public API
+ * Esem Bridge — Public API
  *
- * The main way to use PyJS Bridge:
+ * The main way to use Esem Bridge:
  *
  *   import { python } from "esem-bridge";
  *   const tools = await python("./tools.py");

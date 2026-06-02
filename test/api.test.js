@@ -10,6 +10,8 @@ test("calls Python functions and class methods", async (t) => {
 
   assert.equal(await add(2, 3), 5);
   assert.equal(await greet("Ada"), "Hello, Ada!");
+  await new Promise((resolve) => setTimeout(resolve, 10));
+  assert.equal(await add(4, 5), 9);
 
   const counter = await Counter(4);
   assert.equal(await counter.increment(), 5);

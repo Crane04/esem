@@ -10,4 +10,3 @@ const counter = await Counter(5);
 console.log(await counter.add(3));
 
 await counter.release();
-shutdown();

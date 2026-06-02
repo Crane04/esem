@@ -1,5 +1,5 @@
 /**
- * PyJS Bridge — Proxy System
+ * Esem Bridge — Proxy System
  * Wraps Python modules, functions, and objects as natural JS-callable proxies.
  */
 
@@ -27,9 +27,9 @@ function serialize(value) {
     return { type: "list", value: value.map(serialize) };
   }
   if (typeof value === "object") {
-    if (value.__pyjs_ref_id) {
+    if (value.__esem_ref_id) {
       // Passing a Python proxy back to Python
-      return { type: "proxy", ref_id: value.__pyjs_ref_id };
+      return { type: "proxy", ref_id: value.__esem_ref_id };
     }
     return {
       type: "dict",
@@ -134,9 +134,9 @@ export function createClassProxy(moduleSpec, className) {
     });
     return createObjectProxy(ref_id, methods);
   }
-  PythonClass.__pyjs_class = true;
-  PythonClass.__pyjs_module = moduleSpec;
-  PythonClass.__pyjs_name = className;
+  PythonClass.__esem_class = true;
+  PythonClass.__esem_module = moduleSpec;
+  PythonClass.__esem_name = className;
   return PythonClass;
 }
 
@@ -147,8 +147,8 @@ export function createClassProxy(moduleSpec, className) {
  */
 export function createObjectProxy(refId, methods) {
   const proxy = {
-    __pyjs_ref_id: refId,
-    __pyjs_methods: methods,
+    __esem_ref_id: refId,
+    __esem_methods: methods,
     release() {
       return rpc("release", { ref_id: refId });
     },

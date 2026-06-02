@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * esem CLI
+ * Esem CLI
  *
  * Usage:
  *   esem run index.js          — run a JS file with python: imports enabled

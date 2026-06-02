@@ -1,5 +1,5 @@
 /**
- * PyJS Bridge — Node.js ESM Loader Hook
+ * Esem Bridge — Node.js ESM Loader Hook
  *
  * Intercepts:
  *   import tools from "python:./tools.py"
@@ -20,18 +20,18 @@ export function resolve(specifier, context, nextResolve) {
     const moduleSpec = specifier.slice(PYTHON_PREFIX.length);
     return {
       shortCircuit: true,
-      url: `pyjs://${encodeURIComponent(moduleSpec)}`,
+      url: `esem://${encodeURIComponent(moduleSpec)}`,
     };
   }
   return nextResolve(specifier, context);
 }
 
 export function load(url, context, nextLoad) {
-  if (!url.startsWith("pyjs://")) {
+  if (!url.startsWith("esem://")) {
     return nextLoad(url, context);
   }
 
-  const moduleSpec = decodeURIComponent(url.slice("pyjs://".length));
+  const moduleSpec = decodeURIComponent(url.slice("esem://".length));
 
   const source = `
 import { ensureWorker } from ${JSON.stringify(BRIDGE_URL)};

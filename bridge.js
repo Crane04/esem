@@ -1,5 +1,5 @@
 /**
- * PyJS Bridge — Bridge Runtime
+ * Esem Bridge — Bridge Runtime
  * Spawns and manages the Python worker process.
  * All communication goes through this module.
  */
@@ -19,13 +19,28 @@ let isReady = false;
 let readyResolve = null;
 let readyPromise = new Promise((res) => (readyResolve = res));
 
+function setWorkerReferenced(childProcess, referenced) {
+  const method = referenced ? "ref" : "unref";
+
+  childProcess[method]();
+  for (const stream of childProcess.stdio) {
+    if (typeof stream?.[method] === "function") stream[method]();
+  }
+}
+
+function unrefWorkerIfIdle(childProcess) {
+  if (pendingRequests.size === 0 && workerProcess === childProcess) {
+    setWorkerReferenced(childProcess, false);
+  }
+}
+
 /**
  * Start the Python worker if it isn't running yet.
  */
 export function ensureWorker() {
   if (workerProcess) return readyPromise;
 
-  const pythonBin = process.env.ESEM_PYTHON || process.env.PYJS_PYTHON || "python3";
+  const pythonBin = process.env.ESEM_PYTHON || "python3";
 
   const childProcess = spawn(pythonBin, [WORKER_PATH], {
     stdio: ["pipe", "pipe", "pipe"],
@@ -42,13 +57,14 @@ export function ensureWorker() {
     try {
       msg = JSON.parse(line);
     } catch {
-      console.error("[pyjs] Bad JSON from worker:", line);
+      console.error("[esem] Bad JSON from worker:", line);
       return;
     }
 
     if (msg.type === "ready") {
       isReady = true;
       readyResolve();
+      unrefWorkerIfIdle(childProcess);
       return;
     }
 
@@ -62,6 +78,7 @@ export function ensureWorker() {
     } else {
       pending.resolve(msg);
     }
+    unrefWorkerIfIdle(childProcess);
   });
 
   childProcess.stderr.on("data", (data) => {
@@ -74,7 +91,7 @@ export function ensureWorker() {
     if (workerProcess !== childProcess) return;
 
     if (code !== 0 && code !== null) {
-      console.error(`[pyjs] Python worker exited with code ${code}`);
+      console.error(`[esem] Python worker exited with code ${code}`);
     }
     workerProcess = null;
     isReady = false;
@@ -97,9 +114,11 @@ export async function rpc(action, payload = {}) {
   const id = ++requestCounter;
 
   return new Promise((resolve, reject) => {
+    const childProcess = workerProcess;
     pendingRequests.set(id, { resolve, reject });
     const message = JSON.stringify({ id, action, ...payload }) + "\n";
-    workerProcess.stdin.write(message);
+    setWorkerReferenced(childProcess, true);
+    childProcess.stdin.write(message);
   });
 }
 
