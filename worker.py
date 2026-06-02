@@ -1,5 +1,5 @@
 """
-PyJS Bridge — Python Worker
+Esem Bridge — Python Worker
 Runs as a persistent subprocess. Communicates with Node.js over stdin/stdout
 using newline-delimited JSON-RPC.
 """
@@ -90,7 +90,7 @@ def _load_module(module_spec):
     # Try as a file path first
     if module_spec.startswith("./") or module_spec.startswith("/") or module_spec.endswith(".py"):
         abs_path = os.path.abspath(module_spec)
-        spec = importlib.util.spec_from_file_location("_pyjs_module", abs_path)
+        spec = importlib.util.spec_from_file_location("_esem_module", abs_path)
         if spec is None:
             raise ImportError(f"Cannot load module from path: {module_spec}")
         mod = importlib.util.module_from_spec(spec)

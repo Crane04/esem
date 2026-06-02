@@ -16,3 +16,14 @@ test("supports python: imports through the loader", () => {
   assert.equal(result.status, 0, result.stderr);
   assert.equal(result.stdout.trim(), "42");
 });
+
+test("exits automatically after API calls finish", () => {
+  const result = spawnSync(
+    process.execPath,
+    ["./example/api-auto-shutdown-entry.js"],
+    { cwd: root, encoding: "utf8", timeout: 5000 }
+  );
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), "42");
+});

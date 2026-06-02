@@ -207,11 +207,25 @@ Set `ESEM_PYTHON` to use a specific Python binary (e.g. inside a venv):
 ESEM_PYTHON=.venv/bin/python npx esem run index.js
 ```
 
+## Worker lifecycle
+
+You do not need to call `shutdown()` in short scripts. esem automatically lets
+Node.js exit after your Python calls finish.
+
+In a long-running application, the Python worker remains available for later
+calls. You can still release it early when you know it is no longer needed:
+
+```js
+import { shutdown } from "esem-bridge";
+
+shutdown();
+```
+
 ---
 
 ## How it works
 
-esem spawns a persistent Python worker process when you first call `python()`. It stays alive for the lifetime of your Node process — no cold start on every call.
+esem spawns a Python worker process when you first call `python()`. The same worker is reused while your Node.js application is running, so there is no cold start on every call. When no Python calls are active, the worker does not prevent Node.js from exiting naturally.
 
 Communication is JSON-RPC over stdin/stdout. When you call a proxied function, a message goes to the worker, Python executes it, and the result comes back serialized. The round-trip is microseconds on local processes.
 

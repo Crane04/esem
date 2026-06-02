@@ -9,14 +9,14 @@
     "./loader": "./loader.js"
   },
   "bin": {
-    "esem": "./pyjs.js"
+    "esem": "./cli.js"
   },
   "files": [
     "bridge.js",
     "index.js",
     "loader.js",
     "proxy.js",
-    "pyjs.js",
+    "cli.js",
     "worker.py"
   ],
   "scripts": {
