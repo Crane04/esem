@@ -144,6 +144,33 @@ const { python } = await import("esem-bridge");
 const np = await python("numpy");              // pip-installed packages work too
 ```
 
+### Reading module constants
+
+```python
+# config.py
+VERSION = "1.0.0"
+SETTINGS = {
+    "debug": True,
+    "ports": [3000, 3001],
+}
+```
+
+Module values are loaded lazily, so await them when reading:
+
+```js
+const config = await python("./config.py");
+
+console.log(await config.VERSION);   // "1.0.0"
+console.log(await config.SETTINGS);  // { debug: true, ports: [3000, 3001] }
+```
+
+Destructured module values are promises too:
+
+```js
+const { VERSION } = await python("./config.py");
+console.log(await VERSION);
+```
+
 ---
 
 ## Error handling
