@@ -32,3 +32,18 @@ test("preserves Python error details", async (t) => {
     return true;
   });
 });
+
+test("reads Python module constants", async (t) => {
+  t.after(shutdown);
+
+  const fixture = await python("./test/fixture.py");
+
+  assert.equal(await fixture.VERSION, "0.1.2");
+  assert.equal(await fixture.ENABLED, true);
+  assert.equal(await fixture.RETRY_COUNT, 3);
+  assert.equal(await fixture.NOTHING, null);
+  assert.deepEqual(await fixture.SETTINGS, {
+    debug: true,
+    ports: [3000, 3001],
+  });
+});

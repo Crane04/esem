@@ -83,12 +83,11 @@ export async function createModuleProxy(moduleSpec) {
       // It's a plain value — fetch it lazily
       Object.defineProperty(proxy, name, {
         get: async () => {
-          const res = await rpc("call", {
+          const res = await rpc("get_attr", {
             module: moduleSpec,
-            function: name,
-            args: [],
+            attr: name,
           });
-          return deserialize(res.result);
+          return deserialize(res.value);
         },
         enumerable: true,
       });

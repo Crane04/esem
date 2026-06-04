@@ -204,13 +204,18 @@ def handle_release(req):
 
 
 def handle_get_attr(req):
-    """Get an attribute value from a proxied object."""
-    ref_id = req["ref_id"]
+    """Get an attribute value from a loaded module or proxied object."""
     attr_name = req["attr"]
-    obj = _get_object(ref_id)
-    if obj is None:
-        raise ValueError(f"Object {ref_id} not found")
-    value = getattr(obj, attr_name)
+
+    if "module" in req:
+        target = _load_module(req["module"])
+    else:
+        ref_id = req["ref_id"]
+        target = _get_object(ref_id)
+        if target is None:
+            raise ValueError(f"Object {ref_id} not found")
+
+    value = getattr(target, attr_name)
     return {"value": _serialize(value)}
 
 

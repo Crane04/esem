@@ -1,3 +1,13 @@
+VERSION = "0.1.2"
+ENABLED = True
+RETRY_COUNT = 3
+NOTHING = None
+SETTINGS = {
+    "debug": True,
+    "ports": [3000, 3001],
+}
+
+
 def add(a, b):
     return a + b
 
